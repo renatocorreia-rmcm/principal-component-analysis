@@ -1,59 +1,92 @@
 import numpy as np
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 
-df = pd.read_csv("breast_cancer_wisconsis.csv")
+# todo: bifurcates approaches:
+#       pca to simplify classification by a model
+#           svd, linear_regression
+#       pca to properly classificate
+#           PCA each class separetely. then classify sample by represetation error
+#           this is interesting because currently PC1 of whole dataset doesnt differentiate between classes at all
 
-labels = df["diagnosis"]
-df = df.drop(columns=["id", "diagnosis"])
+# todo: try on a image dataset
+
+"""
+    LOAD PRE-PROCESSED DATA
+"""
+
+df = pd.read_csv("data/breast_cancer_wisconsis_processed.csv")
+labels = df["diagnosis"].to_numpy()
+data = df.drop(columns=["diagnosis"])
+
+colors = np.where(labels == "B", "c", "r")
 
 
-scaler = StandardScaler()  # z score scalling
+"""
+    FIND PRINCIPAL COMPONENTS   
+"""
 
-df_scaled = pd.DataFrame(
-    scaler.fit_transform(df),
-    columns=df.columns
-)
+pca = PCA()
+projected_points = pca.fit_transform(data)
 
+# cumulative variance
+cumulative = np.cumsum(pca.explained_variance_ratio_)
 
-n_components = 3
-pca = PCA(n_components=n_components)  # use n_componets =
-projected_points = pca.fit_transform(df.to_numpy())
-
-print("variance explained by each principal componet found:")
-print(pca.explained_variance_)
-
-print("plotting variance decay along amount of principal components used to represent the data")
 fig, ax = plt.subplots()
-components_variances = pca.explained_variance_
-ax.plot(np.arange(len(components_variances)), components_variances)
-plt.xticks(np.arange(len(components_variances)))
+ax.scatter(np.arange(1, len(cumulative)+1), cumulative)
+ax.set_xlabel("Number of Principal Components")
+ax.set_ylabel("Cumulative Explained Variance")
+plt.xticks(np.arange(len(cumulative)))
+plt.yticks(cumulative)
+ax.grid()
 plt.show()
 
-labels = labels.to_numpy()
-labels[labels == "B"] = 'c'
-labels[labels == "M"] = 'r'
 
+"""
+    PLOTTING
+"""
+
+
+# colors
+
+# 1D plot
+
+fig, ax = plt.subplots()
+
+x_B = projected_points[labels == "B", 0]
+x_M = projected_points[labels == "M", 0]
+
+ax.hist(x_B, alpha=0.5, label="Benign", color='c')
+ax.hist(x_M, alpha=0.5, label="Malignant", color='r')
+
+ax.set_xlabel("PC1")
+ax.set_ylabel("Frequency")
+ax.legend()
+
+plt.show()
+
+
+# 2D plot
+fig, ax = plt.subplots()
+
+x, y = projected_points[:, :2].T
+ax.scatter(x, y, color=colors, alpha=0.4)
+
+ax.set_xlabel("PC1")
+ax.set_ylabel("PC2")
+
+plt.show()
+
+# 3D plot
 fig = plt.figure()
+ax = fig.add_subplot(projection='3d')
 
-if n_components == 2:
-    print("plotting 2d points")
+x, y, z = projected_points[:, :3].T
+ax.scatter(x, y, z, color=colors, alpha=0.5)
 
-    ax = fig.add_subplot()
-    ax.set_aspect("equal")
+ax.set_xlabel("PC1")
+ax.set_ylabel("PC2")
+ax.set_zlabel("PC3")
 
-    x, y = projected_points.T
-    ax.scatter(x, y, color=labels)
-    plt.show()
-
-
-if n_components == 3:
-    print("plotting 3d points")
-    ax = fig.add_subplot(projection='3d')
-    ax.set_aspect("equal")
-
-    x, y, z = projected_points.T
-    ax.scatter(x, y, z, color=labels)
-    plt.show()
+plt.show()
