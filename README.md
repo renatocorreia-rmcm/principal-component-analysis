@@ -79,7 +79,7 @@ I must find a way to ponder, for each principal component:
 so i can decide to remove or keep each componet based on that,
 not only its explained variability
 
-NÃO BASTA O PCi EXPLICAR BEM A VARIABILIDADE DO DATASET DELE,
+NÃO BASTA O PC_i EXPLICAR BEM A VARIABILIDADE DO DATASET DELE,
 ELE TAMBÉM PRECISA EXPLICAR MAL A VARIABILIDADE DO OUTRO DATASET
 
 o quao mal ele explica a variabilidade do outro dataset 
@@ -88,6 +88,14 @@ realmente é dado pela cos_sim com seu correspondente do outro dataset?
 
 Ou seja, ao inves de encontrar a base que melhor expressa o dataset,
 podemos encontrar a base que melhor expressa sua diferença em relação a outro dataset
+
+instead of ordering principal component of A by explained variance of A,
+we could order they by (explained variance of A)/(explained variance of B) or something like that.
+
+notice how adding a PC of A is always a gain of info, since this ratio certainly is >1.
+My claim is not that some PCs could bring debt, but that a lower PC can potentially bring more info than a higher one.
+
+
 
 ## References
 * [_Principal Component Analysis_ (2026) -- Wikipedia](https://en.wikipedia.org/wiki/Principal_component_analysis)
