@@ -1,1 +1,0 @@
-# plot 1d, 2d, 3d in 1 func

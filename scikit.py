@@ -16,11 +16,11 @@ from sklearn.decomposition import PCA
     LOAD PRE-PROCESSED DATA
 """
 
-df = pd.read_csv("data/breast_cancer_wisconsis_processed.csv")
-labels = df["diagnosis"].to_numpy()
-data = df.drop(columns=["diagnosis"])
+df = pd.read_csv("data/breast_cancer_wisconsis/breast_cancer_wisconsis_processed_test.csv")
 
-colors = np.where(labels == "B", "c", "r")
+targets = df["diagnosis"].to_numpy()
+features = df.drop(columns=["diagnosis"])
+colors = np.where(targets == 0, "c", "r")
 
 
 """
@@ -28,7 +28,7 @@ colors = np.where(labels == "B", "c", "r")
 """
 
 pca = PCA()
-projected_points = pca.fit_transform(data)
+projected_points = pca.fit_transform(features)
 
 # cumulative variance
 cumulative = np.cumsum(pca.explained_variance_ratio_)
@@ -54,11 +54,11 @@ plt.show()
 
 fig, ax = plt.subplots()
 
-x_B = projected_points[labels == "B", 0]
-x_M = projected_points[labels == "M", 0]
+x_Benign = projected_points[targets == 0, 0]
+x_Malignant = projected_points[targets == 1, 0]
 
-ax.hist(x_B, alpha=0.5, label="Benign", color='c')
-ax.hist(x_M, alpha=0.5, label="Malignant", color='r')
+ax.hist(x_Benign, alpha=0.5, label="Benign", color='c')
+ax.hist(x_Malignant, alpha=0.5, label="Malignant", color='r')
 
 ax.set_xlabel("PC1")
 ax.set_ylabel("Frequency")

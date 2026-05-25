@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
 
 """
     BREAST CANCER WISCONSIS
@@ -7,18 +8,24 @@ from sklearn.preprocessing import StandardScaler
 
 dataset_name = "breast_cancer_wisconsis"
 
-df = pd.read_csv(f"data/{dataset_name}.csv")
+df = pd.read_csv(f"data/{dataset_name}/{dataset_name}.csv")
 
-labels = df["diagnosis"]
-numerical_columns_indices = df.columns.difference(["diagnosis"])
-data = df[numerical_columns_indices]
+targets = df["diagnosis"]
+features = df.drop(columns=["diagnosis"])
+
+targets = targets.map({'B': 0, 'M' : 1})
 
 scaler = StandardScaler()  # z score scalling
-df_scaled = pd.DataFrame(
-    scaler.fit_transform(data),
-    columns=data.columns
+features_scaled = pd.DataFrame(
+    scaler.fit_transform(features),
+    columns=features.columns
 )
 
-df = pd.concat([labels, df_scaled], axis=1)
+df_scaled = pd.concat([targets, features_scaled], axis=1)
 
-df.to_csv(f"data/{dataset_name}_processed.csv")
+
+df_scaled_train, df_scaled_test = train_test_split(df_scaled)
+
+df_scaled.to_csv(f"data/{dataset_name}/{dataset_name}_processed.csv")
+df_scaled_train.to_csv(f"data/{dataset_name}/{dataset_name}_processed_train.csv")
+df_scaled_test.to_csv(f"data/{dataset_name}/{dataset_name}_processed_test.csv")
