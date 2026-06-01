@@ -68,25 +68,6 @@ covariance matrix of data
 is a diagonal matrix of each new axis variance 
 (each one being directly proportional to eigenvalues) 
 
-Scree plots can be useful to 
-track the variance decay along principal components,
-choose the amount of principal components to keep,
-and interpret the finding of PCA in general
-https://en.wikipedia.org/wiki/Scree_plot
-
-Together with biplot https://en.wikipedia.org/wiki/Scree_plot 
-to see data dispersion along principal components
-
-
-# Classification using Machine Learning + PCA
-
-PCA can be used to simplify a dataset 
-before feeding it into a machine learning model.
-
-## Breast cancer wisconsin DataSet
-
-
-
 # Classification using Raw PCA
 
 (See references) Raw PCA can be used to Classification by 
@@ -94,37 +75,6 @@ computing the principal components of each class,
 then we may assume a new datapoint projected into each Class Principal Componets Basis
 will have small representation error for the class it belongs,
 and a big representation error for the classes it does not belong.
-
-## Breast Cancer wisconsin DataSet
-
-32 numerical features. Each register is labeled in Benign or Malignum
-
-### Principal Components decomposition of each class
-
-![](assets/cumulative_variance_raw_pca_breast_cancer_wisconsin.png)
-
-This features are incredibilly highlly correlated. 
-A single linear combination (resulting in a single scalar!) 
-of the features of a samples is enough to 
-represent more than 99% of the data variance
-
-The cumulative explained variance of the classes show that 
-Benign tumours are relatively slightly more correlated 
-than Malignous ones. 
-
-Although both classes show to be very representable in few components, we may expect some fake negatives for Malignum, 
-since its **relatively** harder for _Malign_ to be resumed by less components (In comparisson to _Benign_). 
-I.e. I expect the majority of errors from the model to come from
-Malignous samples being classified as Benign ones.
-
-Raw PCA classification main thesis can be previewd by checking (un)similarity 
-measurements dimension-wise between the found principal components
-for each class.
-
-![](assets/PCs_cosine_distances_breast_cancer_wisconsin.png)
-OOPS ! Both classes have THE SAME principal component 0 (99.9% of data variability). 
-So there will be no reconstruction error relative to PC1. 
-We'll need to change approachs here.
 
 The original authors do not considered similar principal components between classes
 
@@ -145,11 +95,17 @@ SIGNATURE COMPONENTS ANALYSIS
 
 (explained variability in A) / (explained variability in B) 
 
-Check the section on [Breast cancer wisconsin with modified pca](#classification-using-raw-modified-pca) 
+
+## Breast Cancer wisconsin DataSet
+
+32 numerical features. Each register is labeled in Benign or Malignum
+
+### Principal Components decomposition of each class
+
 
 # Classification using Raw Modified PCA
 
-# Breast cancer wisconsin
+## Breast cancer wisconsin
 
 As seen in [Breast cancer wisconsin with raw pca](#breast-cancer-wisconsin-dataset-1),
 this dataset had similar principal components for each class, 
