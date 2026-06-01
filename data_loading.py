@@ -21,10 +21,12 @@ bc_path = os.path.join(bc_download_dir, "data.csv")
 df = pd.read_csv(bc_path)
 
 # drop indices and last void column
-df = df.drop(columns=df.columns[[0, -1]].to_list())
+df.drop(columns=df.columns[[0, -1]].to_list(), inplace=True)
 
-targets = df["diagnosis"]
-features = df.drop(columns=["diagnosis"])
+df.rename(columns={"diagnosis": "label"}, inplace=True)
+
+targets = df["label"]
+features = df.drop(columns=["label"])
 targets = targets.map({'B': 0, 'M' : 1})
 
 scaler = StandardScaler()
@@ -61,5 +63,3 @@ fashion_test = pd.read_csv(test_path)
 # (Optional) Save them to your local data folder if you want a copy there
 fashion_train.to_csv(f"data/{dataset_name}/train.csv", index=False)
 fashion_test.to_csv(f"data/{dataset_name}/test.csv", index=False)
-
-print("All datasets downloaded, processed, and saved successfully!")
