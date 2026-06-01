@@ -45,7 +45,7 @@ class Classe:
                 vec_self = self.components[i].reshape(1, -1)
                 vec_other = all_classes_components[k, i].reshape(1, -1)
 
-                self.similarity_matrix[k, i] = cosine_similarity(vec_self, vec_other)[0, 0]
+                self.similarity_matrix[k, i] = np.abs(cosine_similarity(vec_self, vec_other)[0, 0])
 
 
 class PCAClassifier:

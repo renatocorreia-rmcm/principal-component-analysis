@@ -1,47 +1,54 @@
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
+
 from PCAClassifier import PCAClassifier
 from PCAVisualizer import PCAVisualizer
 
-print("loading dataset...\n")
+
+"""
+    LOADING DATA
+"""
+print()  # skip line for clean log
+
+print("Initializing Data...")
 fashion_mnist = pd.read_csv("data/fashion_mnist/train.csv")
 breast_cancer_wisconsin = pd.read_csv("data/breast_cancer_wisconsin/train.csv")
 
-
-print("Initializing Classifier...\n")
-classifier = PCAClassifier(df=breast_cancer_wisconsin)
+dataset_to_use = breast_cancer_wisconsin
 
 
-print("Computing principal components...\n")
+"""
+    PCA
+"""
+print()  # skip line for clean log
+
+print("Initializing Classifier...")
+classifier = PCAClassifier(df=dataset_to_use)
+
+print("Computing principal components...")
 classifier.compute_principal_components()
 
-print("Printing principal components...\n")
-for i, c in enumerate(classifier.classes):
-    print(f"CLASS {i}")
-    print(c.components)
-
-print("Printing principal components explained variance...\n")
-for i, c in enumerate(classifier.classes):
-    print(f"CLASS {i}")
-    print(c.explained_variances)
-
-print("Computing principal components similaritys...\n")
+print("Computing principal components similaritys...")
 classifier.compute_principal_components_similarity()
 
-print("Printing principal components similarity matrix...\n")
-for i, c in enumerate(classifier.classes):
-    print(f"CLASS {i}")
-    print(c.similarity_matrix)
 
+"""
+    PCA RESULT ANALYSIS
+"""
+print()  # skip line for clean log
 
+print("Initializing Visualizer...")
+visualizer = PCAVisualizer(
+    classes=classifier.classes,
+    components_amount_to_show=None,
+    dimensions_amount_to_show=None
+)
 
-print("Initializing Visualizer")
-visualizer = PCAVisualizer(classifier.classes)
-
-print("Ploting Cumulative Variances")
+print("Plotting Cumulative Explained Variances...")
 visualizer.cumulative_variance()
 
-print("Ploting components similarity matrix")
+print("Plotting Principal Components...")
+visualizer.components()
+
+print("Plotting Components Cosine Similarity Matrix..")
 visualizer.components_similarity()
 
