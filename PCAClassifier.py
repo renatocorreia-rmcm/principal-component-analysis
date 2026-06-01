@@ -62,6 +62,9 @@ class PCAClassifier:
         for c in self.classes:
             c.compute_principal_components()
 
+    def compute_contrastive_principal_components(self):
+        pass
+
     def compute_principal_components_similarity(self):
         all_components = np.array([c.components for c in self.classes])
 

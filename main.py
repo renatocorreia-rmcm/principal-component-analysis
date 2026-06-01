@@ -3,6 +3,16 @@ import pandas as pd
 from PCAClassifier import PCAClassifier
 from PCAVisualizer import PCAVisualizer
 
+# todo: Implement PCA
+# todo: Implement C-PCA or use lib at https://github.com/abidlabs/contrastive
+
+# todo: Implement Representation Error (v - v')
+#   Implement basis-change (f(v) = v')
+
+# todo: Increment PCA visualizer to analyse result
+
+# todo: Documentation
+
 
 """
     LOADING DATA
