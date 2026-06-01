@@ -49,8 +49,8 @@ print()  # skip line for clean log
 print("Initializing Visualizer...")
 visualizer = PCAVisualizer(
     classes=classifier.classes,
-    components_amount_to_show=None,
-    dimensions_amount_to_show=None
+    components_amount_to_show=5,
+    dimensions_amount_to_show=10
 )
 
 print("Plotting Cumulative Explained Variances...")

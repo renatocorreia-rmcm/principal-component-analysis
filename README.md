@@ -23,6 +23,7 @@ FMNIST (strong dataset)
 -->
 
 ## Literature review
+angles between subspaces can be used as metric for estimate representation error https://www.merl.com/publications/docs/TR2012-058.pdf
 
 * [Linear Discriminant Analysis (NOT PCA)](https://www.nature.com/articles/s43586-024-00346-y)
   
